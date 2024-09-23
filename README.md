@@ -1,3 +1,7 @@
+backend: https://gitlab.com/public-starter-projects1/02-redux-ultimate/fake-backend-crud
+tài liệu: https://drive.google.com/drive/folders/1uKZ8YKWf8rQvkF0tDz0AK-2QxEJ_UmSy?usp=sharing
+node: 20.14.0
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
