@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-interface IUsers {
-    id: number,
+export interface IUsers {
+    id?: number,
     name: string,
     email: string
 }
