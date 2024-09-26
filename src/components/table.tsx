@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-interface IUsers {
-    id: number,
-    name: string,
-    email: string
-}
-
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { fetchUsers } from '../redux/users/usersSlice';
+import { toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
 function TableComponent() {
-    const [users, setUsers] = useState<IUsers[]>([])
-    const fetchUsers = async () => {
-        const res = await fetch('http://localhost:8000/users')
-        const data = await res.json()
-        setUsers(data)
-    }
+    const users = useAppSelector(state => state.users.listUsers)
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        fetchUsers()
+        dispatch(fetchUsers())
+        toast('🦄 Wow so easy!');
     }, [])
-    return (
+    const deleteUser = (id: number) => {
+        console.log(id)
+    }
+    return (<>
+        <div className='d-flex justify-content-between align-items-center'>
+            <h3>List users</h3>
+            <Button variant="primary">Add new</Button>
+        </div>
         <Table striped bordered hover>
             <thead>
                 <tr>
                     <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,12 +35,16 @@ function TableComponent() {
                             <td>{user.id}</td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
+                            <td>
+                                <Button variant="warning">Edit</Button>{' '}
+                                <Button onClick={() => { deleteUser(user.id) }} variant="danger">Delete</Button>
+                            </td>
                         </tr>
                     )
                 })}
 
             </tbody>
-        </Table>
+        </Table></>
     );
 }
 
