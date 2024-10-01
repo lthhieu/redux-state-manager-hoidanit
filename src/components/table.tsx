@@ -31,10 +31,10 @@ function TableComponent() {
         <MyModal
             show={modalShow}
             onHide={() => setModalShow(false)}
-            setStatus={setStatus}
+            setstatus={setStatus}
             status={status}
-            dataUpdate={dataUpdate}
-            setDataUpdate={setDataUpdate}
+            dataupdate={dataUpdate}
+            setdataupdate={setDataUpdate}
         />
         <div className='d-flex justify-content-between align-items-center'>
             <h3>List users</h3>

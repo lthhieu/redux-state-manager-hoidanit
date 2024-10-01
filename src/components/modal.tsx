@@ -4,18 +4,20 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { IUsers } from '../redux/users/usersSlice';
+import { createNewUser, IUsers } from '../redux/users/usersSlice';
+import { useAppDispatch } from '../redux/hooks';
 interface IMyModal {
     show: boolean,
     onHide: () => void,
-    setStatus: (v: string) => void,
+    setstatus: (v: string) => void | null,
     status: string,
     //update
-    dataUpdate: null | IUsers,
-    setDataUpdate: (v: null | IUsers) => void
+    dataupdate: null | IUsers,
+    setdataupdate: (v: null | IUsers) => void | null
 }
 const MyModal = (props: IMyModal) => {
-    const { status, onHide, dataUpdate, setDataUpdate } = props
+    const { status, onHide, dataupdate, setdataupdate } = props
+    const dispatch = useAppDispatch()
     const defaultData = {
         email: '',
         name: ''
@@ -27,14 +29,14 @@ const MyModal = (props: IMyModal) => {
     const [formData, setFormData] = useState<IUsers>(defaultData)
     const [validFormData, setValidFormData] = useState(defaultValid)
     useEffect(() => {
-        if (dataUpdate) {
+        if (dataupdate) {
             setFormData({
-                name: dataUpdate.name,
-                email: dataUpdate.email,
-                id: dataUpdate.id
+                name: dataupdate.name,
+                email: dataupdate.email,
+                id: dataupdate.id
             })
         }
-    }, [dataUpdate])
+    }, [dataupdate])
     const validate = () => {
         setValidFormData(defaultValid)
         let { email, name } = formData
@@ -62,13 +64,17 @@ const MyModal = (props: IMyModal) => {
     const handleSubmit = () => {
         let userData = formData
         if (validate()) {
-            console.log(userData)
+            if (status === 'CREATE') {
+                dispatch(createNewUser({ email: userData.email, name: userData.name }))
+            } else {
+
+            }
         }
     }
     const resetFormData = () => {
         setValidFormData(defaultValid)
         setFormData(defaultData)
-        setDataUpdate(null)
+        setdataupdate(null)
         onHide()
     }
     return (

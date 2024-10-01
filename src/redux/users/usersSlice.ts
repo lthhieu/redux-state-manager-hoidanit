@@ -20,6 +20,21 @@ export const fetchUsers = createAsyncThunk(
         return data as IUsers[]
     },
 )
+
+export const createNewUser = createAsyncThunk(
+    'users/createNewUser',
+    async (payload: IUsers) => {
+        const res = await fetch('http://localhost:8000/users', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...payload }),
+        })
+        const data = await res.json()
+        return data
+    },
+)
 export const usersSlice = createSlice({
     name: 'users',
     initialState,
